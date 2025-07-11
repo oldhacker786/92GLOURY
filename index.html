@@ -142,12 +142,23 @@
       const small = inputs.filter(n => n <= 4).length;
 
       let prediction = "";
-      if (big === small) {
-        prediction = "Prediction: RANDOM (Low Confidence)";
-      } else if (small >= 3) {
-        prediction = "Prediction: BIG (AI Logic)";
+      let last = inputs[4];
+      let secondLast = inputs[3];
+      let thirdLast = inputs[2];
+
+      // AI-style pattern detection
+      if (inputs.every(n => n <= 4)) {
+        prediction = "Prediction: BIG (Strong Reversal)";
+      } else if (inputs.every(n => n >= 5)) {
+        prediction = "Prediction: SMALL (Strong Reversal)";
+      } else if (thirdLast <= 4 && secondLast <= 4 && last <= 4) {
+        prediction = "Prediction: BIG (Pattern Detected)";
+      } else if (last >= 5 && secondLast <= 4 && thirdLast >= 5) {
+        prediction = "Prediction: SMALL (Zigzag)";
+      } else if (big > small) {
+        prediction = "Prediction: SMALL (Weighted)";
       } else {
-        prediction = "PREDICTION: SMALL (WINNER)";
+        prediction = "Prediction: BIG (Weighted)";
       }
 
       document.getElementById("result").innerText = prediction;
@@ -161,4 +172,4 @@
   </script>
 
 </body>
-</html>
+  </html>
